@@ -19,6 +19,7 @@ type ChallengesContextData = {
     resetChallenge: () => void;
     experienceToNextLevel: number;
     completeChallenge: () => void;
+    closeLevelUpModal: () => void;
 }
 
 type ChallengesProviderProps = {
@@ -37,8 +38,11 @@ export function ChallengesProvider( { children, ...rest }: ChallengesProviderPro
     const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0);
 
     const [activeChallenge, setActiveChallenge] = useState(null);
+    const [isLevelUpModalOpen, setisLevelUpModalOpen] = useState(false);
+
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
+
 
     useEffect(()=>{
         Notification.requestPermission();
@@ -54,6 +58,7 @@ export function ChallengesProvider( { children, ...rest }: ChallengesProviderPro
 
     function levelUp () {
         setLevel(level + 1);
+        setisLevelUpModalOpen(true);
     }
 
     function startNewChallenge() {
@@ -94,6 +99,9 @@ export function ChallengesProvider( { children, ...rest }: ChallengesProviderPro
         setChallengesCompleted(challengesCompleted + 1);
     }
 
+    function closeLevelUpModal(){
+        setisLevelUpModalOpen(false);
+    }
 
     return (
         <ChallengesContext.Provider 
@@ -106,11 +114,13 @@ export function ChallengesProvider( { children, ...rest }: ChallengesProviderPro
                 startNewChallenge,
                 resetChallenge,
                 experienceToNextLevel,
-                completeChallenge
+                completeChallenge,
+                closeLevelUpModal
             }}
         >
             {children}
-            <LevelUpModal/>
+            { isLevelUpModalOpen && <LevelUpModal/>}
+            
         </ChallengesContext.Provider>
     );
 }
