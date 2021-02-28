@@ -13,6 +13,7 @@ import { CountdownProvider  } from '../contexts/CountdownContext';
 import styles from '../styles/pages/Home.module.css';
 
 import { type } from 'os';
+import { Logon } from '../components/Logon';
 
 type HomeProps = {
   level: number,
@@ -24,40 +25,10 @@ export default function Home(props: HomeProps) {
    
 
   return (
-    <ChallengesProvider
-      level = {props.level}
-      currentExperience = {props.currentExperience}
-      challengesCompleted = {props.challengesCompleted}
-    >
+    <Logon/>
+   
 
-      <div className={styles.container}>
-
-        <Head>
-          <title>Inicio | move.it</title>
-        </Head> 
-
-        <ExperienceBar/>    
-
-        <CountdownProvider>
-
-          <section>
-            
-            <div>
-              <Profile/>
-              <CompletedChallenges/>
-              <Countdown/>
-            </div>
-            
-            <div>
-              <ChallengeBox/>
-            </div>
-            
-          </section>
-
-        </CountdownProvider>
-      </div>
-
-    </ChallengesProvider>
+    
   )
 }
 
